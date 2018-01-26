@@ -1,0 +1,21 @@
+{
+    "example": {
+        "name": "HUFVUDSTADSBLADET",
+        "code": "HBL"
+    },
+    "required": [
+        "code",
+        "name"
+    ],
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the paper"
+        },
+        "code": {
+            "type": "string",
+            "description": "Identifying code of the paper"
+        }
+    }
+}

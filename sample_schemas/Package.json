@@ -1,0 +1,23 @@
+{
+    "example": {
+        "name": "HBL 365",
+        "paper": {
+            "name": "HUFVUDSTADSBLADET",
+            "code": "HBL"
+        }
+    },
+    "required": [
+        "name",
+        "paper"
+    ],
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Package name"
+        },
+        "paper": {
+            "$ref": "#/definitions/Paper"
+        }
+    }
+}
