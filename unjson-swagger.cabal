@@ -1,0 +1,61 @@
+name:                unjson-swagger
+version:             0.1.0
+synopsis:            Turn unjson definitions to swagger2 schemas at your will.
+description:         See README.md
+homepage:            https://github.com/githubuser/unjson-swagger#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Konstantin Zudov <co@zudov.me>, Fabrizio Ferrai <fabrizio.ferrai@gmail.com>
+maintainer:          Konstantin Zudov <co@zudov.me>, Fabrizio Ferrai <fabrizio.ferrai@gmail.com>
+copyright:           2018 KSF Media Ab
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Data.Unjson.Swagger
+  build-depends:       base >= 4.7 && < 5,
+                       unjson,
+                       swagger2,
+                       time,
+                       uuid,
+                       free,
+                       unordered-containers,
+                       insert-ordered-containers,
+                       scientific,
+                       aeson,
+                       text,
+                       lens
+
+  default-language:    Haskell2010
+
+test-suite unjson-swagger-test
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs: test
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base >= 4.7 && < 5,
+                       unjson,
+                       swagger2,
+                       time,
+                       uuid,
+                       free,
+                       unordered-containers,
+                       insert-ordered-containers,
+                       scientific,
+                       aeson,
+                       text,
+                       lens,
+                       unjson-swagger,
+                       tasty,
+                       tasty-golden,
+                       aeson-pretty,
+                       filepath
+  default-language: Haskell2010
+
+
+source-repository head
+  type:     git
+  location: https://github.com/githubuser/unjson-swagger

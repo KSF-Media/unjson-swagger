@@ -1,0 +1,7 @@
+resolver: lts-10.3
+packages:
+- .
+- location:
+    git: https://github.com/KSF-Media/unjson.git
+    commit: 4eb3f2f5c9248d02143115f944609fd85a291d5c
+  extra-dep: true
