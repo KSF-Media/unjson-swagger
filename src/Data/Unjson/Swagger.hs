@@ -108,7 +108,7 @@ unjsonDefReferencedSchema d =
         "Int"             -> declareSchemaRef $ Proxy @Int
         "Int8"            -> declareSchemaRef $ Proxy @Int8
         "Int16"           -> declareSchemaRef $ Proxy @Int16
-        "int32"           -> declareSchemaRef $ Proxy @Int32
+        "Int32"           -> declareSchemaRef $ Proxy @Int32
         "Int64"           -> declareSchemaRef $ Proxy @Int64
         "Integer"         -> declareSchemaRef $ Proxy @Integer
         "Natural"         -> declareSchemaRef $ Proxy @Natural
