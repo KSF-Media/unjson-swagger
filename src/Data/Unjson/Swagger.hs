@@ -88,7 +88,7 @@ unjsonDefReferencedSchema d =
       valSchema <- unjsonDefReferencedSchema val
       pure $ Inline $ mempty
         & type_ .~ SwaggerObject
-        & additionalProperties ?~ valSchema
+        & additionalProperties ?~ AdditionalPropertiesSchema valSchema
 
     ArrayUnjsonDef _mpk am _n _k val
       | ArrayModeStrict <- am -> do
