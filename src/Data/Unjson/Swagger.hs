@@ -73,7 +73,7 @@ unjsonDefReferencedSchema d =
       pure $ Inline $ mempty
     Unjson.DisjointUnjsonDef _key alternates -> do
       pure $ Inline $ mempty
-        & type_ .~ SwaggerString
+        & type_ ?~ SwaggerString
         & enum_ ?~ ((\(a, _, _) -> toJSON a) <$> alternates)
     Unjson.UnionUnjsonDef _ -> do
       pure $ Inline $ mempty
@@ -87,14 +87,14 @@ unjsonDefReferencedSchema d =
     MapUnjsonDef val _f _g -> do
       valSchema <- unjsonDefReferencedSchema val
       pure $ Inline $ mempty
-        & type_ .~ SwaggerObject
+        & type_ ?~ SwaggerObject
         & additionalProperties ?~ AdditionalPropertiesSchema valSchema
 
     ArrayUnjsonDef _mpk am _n _k val
       | ArrayModeStrict <- am -> do
           valSchema <- unjsonDefReferencedSchema val
           pure $ Inline $ mempty
-            & type_ .~ SwaggerArray
+            & type_ ?~ SwaggerArray
             & items ?~ SwaggerItemsObject valSchema
       | otherwise ->
           error "Non-strict array modes aren't yet supported"
@@ -141,7 +141,7 @@ fieldsSchema
   -> Declare (Swagger.Definitions Swagger.Schema) Swagger.Schema
 fieldsSchema =
   \case
-    Pure _ -> pure $ mempty & type_ .~ SwaggerObject
+    Pure _ -> pure $ mempty & type_ ?~ SwaggerObject
     Ap f r -> (<>) <$> fieldSchema f <*> fieldsSchema r
 
 fieldSchema
@@ -152,23 +152,23 @@ fieldSchema =
     Unjson.FieldReqDef key doc _f val -> do
       valSchema <- unjsonDefReferencedSchema val
       pure $ mempty
-        & type_ .~ SwaggerObject
+        & type_ ?~ SwaggerObject
         & properties .~ [(key, valSchema <&> description ?~ doc)]
         & required   .~ [key]
     Unjson.FieldOptDef key doc _f val -> do
       valSchema <- unjsonDefReferencedSchema val
       pure $ mempty
-        & type_ .~ SwaggerObject
+        & type_ ?~ SwaggerObject
         & properties .~ [(key, valSchema <&> description ?~ doc)]
     Unjson.FieldDefDef key doc _defval _f val -> do
       valSchema <- unjsonDefReferencedSchema val
       pure $ mempty
-        & type_ .~ SwaggerObject
+        & type_ ?~ SwaggerObject
         & properties .~ [( key, valSchema <&> description ?~ doc)]
     Unjson.FieldRODef key doc _f val -> do
       valSchema <- unjsonDefReferencedSchema val
       pure $ mempty
-        & type_ .~ SwaggerObject
+        & type_ ?~ SwaggerObject
         & properties .~ [( key, valSchema <&> readOnly ?~ True
                                           <&> description ?~ doc)]
 
