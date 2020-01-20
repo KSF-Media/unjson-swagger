@@ -71,10 +71,15 @@ unjsonDefReferencedSchema d =
   case d of
     Unjson.TupleUnjsonDef _tuples -> do
       pure $ Inline $ mempty
-    Unjson.DisjointUnjsonDef _key alternates -> do
+
+    Unjson.EnumUnjsonDef alternates -> do
       pure $ Inline $ mempty
         & type_ ?~ SwaggerString
         & enum_ ?~ ((\(a, _, _) -> toJSON a) <$> alternates)
+
+    Unjson.DisjointUnjsonDef k alternates -> do
+      pure $ Inline $ mempty -- FIXME
+
     Unjson.UnionUnjsonDef _ -> do
       pure $ Inline $ mempty
 
