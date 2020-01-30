@@ -1,5 +1,6 @@
-resolver: lts-14.10
+resolver: lts-14.17
 extra-deps:
-- unjson-0.15.2.1
+- git: https://github.com/KSF-Media/unjson.git
+  commit: 39e7a909ef6b943c6df60655c7a651fd4c406bb6
 packages:
 - .

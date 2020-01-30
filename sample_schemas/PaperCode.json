@@ -1,0 +1,9 @@
+{
+    "example": "HBL",
+    "type": "string",
+    "enum": [
+        "HBL",
+        "VN",
+        "ON"
+    ]
+}

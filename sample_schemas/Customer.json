@@ -1,0 +1,22 @@
+{
+    "example": {
+        "email": "anon@ksfmedia.fi",
+        "type": "anonymous",
+        "accessCode": "letmein"
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/Customer.registered"
+        },
+        {
+            "$ref": "#/definitions/Customer.anonymous"
+        }
+    ],
+    "discriminator": "type",
+    "type": "object",
+    "properties": {
+        "type": {
+            "type": "string"
+        }
+    }
+}

@@ -49,6 +49,7 @@ test-suite unjson-swagger-test
                        text,
                        lens,
                        unjson-swagger,
+                       servant-swagger,
                        tasty,
                        tasty-golden,
                        aeson-pretty,

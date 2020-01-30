@@ -1,0 +1,117 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "",
+        "title": "Sample spec"
+    },
+    "definitions": {
+        "Customer": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Customer.registered"
+                },
+                {
+                    "$ref": "#/definitions/Customer.anonymous"
+                }
+            ],
+            "discriminator": "type",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "Customer.registered": {
+            "required": [
+                "packages",
+                "cusno",
+                "email"
+            ],
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Customer email"
+                },
+                "cusno": {
+                    "maximum": 9223372036854775807,
+                    "minimum": -9223372036854775808,
+                    "type": "integer",
+                    "description": "Customer number"
+                },
+                "packages": {
+                    "items": {
+                        "$ref": "#/definitions/Package"
+                    },
+                    "type": "array",
+                    "description": "Packages that the customer is subscribed to"
+                }
+            }
+        },
+        "Package": {
+            "required": [
+                "name",
+                "paper"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Package name"
+                },
+                "paper": {
+                    "$ref": "#/definitions/Paper"
+                }
+            }
+        },
+        "PaperCode": {
+            "example": "HBL",
+            "type": "string",
+            "enum": [
+                "HBL",
+                "VN",
+                "ON"
+            ]
+        },
+        "Paper": {
+            "required": [
+                "code",
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the paper"
+                },
+                "code": {
+                    "type": "string",
+                    "enum": [
+                        "HBL",
+                        "VN",
+                        "ON"
+                    ],
+                    "description": "Identifying code of the paper"
+                }
+            }
+        },
+        "Customer.anonymous": {
+            "required": [
+                "email",
+                "accessCode"
+            ],
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Customer email"
+                },
+                "accessCode": {
+                    "type": "string",
+                    "description": "Single-use access code"
+                }
+            }
+        }
+    }
+}

@@ -6,16 +6,14 @@
 {-# LANGUAGE TypeApplications    #-}
 module Data.Unjson.Swagger where
 
+import           Control.Monad
 import           Control.Applicative.Free
 import           Control.Lens
-import           Data.Aeson                 (toJSON)
 import qualified Data.Aeson                 as Json
-import qualified Data.HashMap.Lazy          as HashMap
 import qualified Data.HashMap.Strict.InsOrd as InsOrd
 import           Data.Int                   (Int16, Int32, Int64, Int8)
 import           Data.Maybe                 (fromJust)
-import           Data.Monoid                (All, Any)
-import           Data.Monoid                ((<>))
+import           Data.Monoid                (All, Any, (<>))
 import           Data.Proxy                 (Proxy (Proxy))
 import           Data.Scientific            (Scientific)
 import           Data.Swagger               as Swagger
@@ -71,16 +69,30 @@ unjsonDefReferencedSchema d =
   case d of
     Unjson.TupleUnjsonDef _tuples -> do
       pure $ Inline $ mempty
-
+        & type_ ?~ SwaggerArray
+        -- XXX: Swagger 2.0 doesn't allow arrays with several types :(
     Unjson.EnumUnjsonDef alternates -> do
       pure $ Inline $ mempty
         & type_ ?~ SwaggerString
-        & enum_ ?~ ((\(a, _, _) -> toJSON a) <$> alternates)
+        & enum_ ?~ ((\(a, _, _) -> Json.toJSON a) <$> alternates)
 
-    Unjson.DisjointUnjsonDef k alternates -> do
-      pure $ Inline $ mempty -- FIXME
+    Unjson.DisjointUnjsonDef tagName alternates -> do
+      let disjointSchemaName = unjsonDefName d
+      schemas <- forM alternates $ \(tagValue, _predicate, fields) -> do
+        let variantSchemaName = disjointSchemaName <> "." <> tagValue
+        schema <- fieldsSchema fields
+        pure (variantSchemaName, schema)
+      let disjointSchema = mempty
+             & type_ ?~ SwaggerObject
+             & discriminator ?~ tagName
+             & properties .~ InsOrd.fromList
+                 [ (tagName, Inline $ mempty & type_ ?~ SwaggerString) ]
+             & Swagger.allOf ?~ [ Ref $ Reference name | (name, _schema) <- schemas ]
+      declare $ InsOrd.fromList $ (disjointSchemaName, disjointSchema) : schemas
+      pure $ Ref $ Reference disjointSchemaName
 
     Unjson.UnionUnjsonDef _ -> do
+      -- XXX: Swagger 2.0 doesn't allow type unions without discriminator
       pure $ Inline $ mempty
 
     Unjson.ObjectUnjsonDef fields -> do

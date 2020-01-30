@@ -15,6 +15,11 @@
         },
         "code": {
             "type": "string",
+            "enum": [
+                "HBL",
+                "VN",
+                "ON"
+            ],
             "description": "Identifying code of the paper"
         }
     }
