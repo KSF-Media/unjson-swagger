@@ -1,5 +1,5 @@
-resolver: lts-14.10
+resolver: lts-19.6
 extra-deps:
-- unjson-0.15.2.1
+- unjson-0.15.4
 packages:
 - .
